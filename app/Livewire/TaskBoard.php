@@ -8,6 +8,7 @@ use App\Ai\Agents\TaskPriorizerAgent;
 use App\Models\Task;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Cache;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
@@ -35,7 +36,7 @@ class TaskBoard extends Component
     public string $editFeedbackType = '';
     public string $editFeedbackMessage = '';
     public bool $showOnboarding = false;
-    public bool $showCreateTaskForm = true;
+    public bool $showCreateTaskForm = false;
     public string $aiQuickPrompt = '';
     public string $aiCreatorOutput = '';
     public string $aiSummaryOutput = '';
@@ -49,6 +50,7 @@ class TaskBoard extends Component
         $userId = auth()->id();
         $this->userId = $userId ? (int) $userId : 0;
         $this->showOnboarding = (bool) session()->pull('show_onboarding', false);
+        $this->syncCreateTaskFormVisibilityFromUser();
         $this->loadMorningBriefing();
     }
 
@@ -56,6 +58,7 @@ class TaskBoard extends Component
     {
         $this->tasksLimit = 5;
         $this->cancelEdit();
+        $this->syncCreateTaskFormVisibilityFromUser();
         $this->showMorningBriefing = false;
         $this->morningBriefing = '';
         $this->aiCreatorOutput = '';
@@ -222,6 +225,14 @@ class TaskBoard extends Component
     public function toggleCreateTaskForm(): void
     {
         $this->showCreateTaskForm = ! $this->showCreateTaskForm;
+
+        if (! Schema::hasColumn('users', 'show_create_task_form')) {
+            return;
+        }
+
+        User::query()
+            ->whereKey($this->userId)
+            ->update(['show_create_task_form' => $this->showCreateTaskForm]);
     }
 
     public function createViaAgentQuick(): void
@@ -299,6 +310,27 @@ class TaskBoard extends Component
             'Today 3pm fix login bug, urgent, tag engineering.',
             'Friday 11am write release notes, medium priority, tag product.',
         ];
+    }
+
+    private function syncCreateTaskFormVisibilityFromUser(): void
+    {
+        if (! Schema::hasColumn('users', 'show_create_task_form')) {
+            $this->showCreateTaskForm = false;
+
+            return;
+        }
+
+        $user = User::query()
+            ->whereKey($this->userId)
+            ->first(['id', 'show_create_task_form']);
+
+        if (! $user) {
+            $this->showCreateTaskForm = false;
+
+            return;
+        }
+
+        $this->showCreateTaskForm = (bool) $user->show_create_task_form;
     }
 
     private function loadMorningBriefing(): void
