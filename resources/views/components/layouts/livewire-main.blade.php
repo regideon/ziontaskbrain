@@ -62,7 +62,7 @@
                 <svg xmlns="http://www.w3.org/2000/svg" class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M3.75 4.5h16.5M3.75 10.5h16.5M3.75 16.5h16.5"/>
                 </svg>
-                <span class="text-[11px] font-semibold">Dashboard/Tasks</span>
+                <span class="text-[11px] font-semibold">Dashboard</span>
             </a>
             <a href="{{ route('agents-lab') }}" class="flex flex-col items-center justify-center gap-1 rounded-lg py-1.5 {{ $isAgents ? 'text-cyan-600 dark:text-cyan-300' : 'text-slate-500 dark:text-slate-400' }}">
                 <svg xmlns="http://www.w3.org/2000/svg" class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
