@@ -76,6 +76,18 @@
             </section>
         @endif
 
+        <section class="px-4 pb-2">
+            <div class="flex justify-end">
+                <button
+                    type="button"
+                    wire:click="toggleMorningBriefing"
+                    class="rounded-lg border border-indigo-300 bg-indigo-50 px-3 py-1 text-xs font-semibold text-indigo-700 dark:border-indigo-800 dark:bg-indigo-900/20 dark:text-indigo-300"
+                >
+                    {{ $showMorningBriefing ? 'Hide Morning Briefing' : 'Show Morning Briefing' }}
+                </button>
+            </div>
+        </section>
+
         @if ($showMorningBriefing && $morningBriefing !== '')
             <section class="px-4 pb-2">
                 <article class="rounded-xl border border-indigo-200 bg-indigo-50 p-4 dark:border-indigo-900 dark:bg-indigo-900/20">

@@ -296,6 +296,11 @@ class TaskBoard extends Component
         $this->showMorningBriefing = false;
     }
 
+    public function toggleMorningBriefing(): void
+    {
+        $this->showMorningBriefing = ! $this->showMorningBriefing;
+    }
+
     public function useSamplePrompt(int $index): void
     {
         $prompts = $this->sampleTaskPrompts();
@@ -344,7 +349,7 @@ class TaskBoard extends Component
 
         if (is_string($cached) && $cached !== '') {
             $this->morningBriefing = $cached;
-            $this->showMorningBriefing = true;
+            $this->showMorningBriefing = $this->isMorningWindow();
 
             return;
         }
@@ -363,8 +368,20 @@ class TaskBoard extends Component
         if (trim($briefing) !== '') {
             Cache::put($cacheKey, $briefing, now()->endOfDay());
             $this->morningBriefing = $briefing;
-            $this->showMorningBriefing = true;
+            $this->showMorningBriefing = $this->isMorningWindow();
         }
+    }
+
+    private function isMorningWindow(): bool
+    {
+        $now = now();
+
+        if ((int) $now->format('H') >= 12) {
+            return false;
+        }
+
+        // Morning starts at 12:01 AM, not 12:00 AM.
+        return ! ((int) $now->format('H') === 0 && (int) $now->format('i') === 0);
     }
 
     private function buildFallbackSummary(): string
