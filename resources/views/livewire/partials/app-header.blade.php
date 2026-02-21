@@ -14,6 +14,7 @@
             <h1 class="text-lg font-bold tracking-tight">ZionTaskBrain</h1>
             <p class="text-xs text-slate-500 dark:text-slate-400">{{ $subtitle }}</p>
         </div>
+        {{--
         <a href="{{ route('home') }}" class="rounded-lg border border-slate-200 px-3 py-1.5 text-xs font-semibold dark:border-slate-700">Home</a>
         <a href="{{ route('task-board') }}" class="rounded-lg px-3 py-1.5 text-xs font-semibold {{ $active === 'tasks' ? 'bg-sky-500 text-white' : 'border border-slate-200 dark:border-slate-700' }}">Tasks</a>
         <a href="{{ route('agents-lab') }}" class="rounded-lg px-3 py-1.5 text-xs font-semibold {{ $active === 'agents' ? 'bg-sky-500 text-white' : 'border border-slate-200 dark:border-slate-700' }}">Agents</a>
@@ -22,5 +23,6 @@
             @csrf
             <button type="submit" class="rounded-lg border border-rose-200 px-3 py-1.5 text-xs font-semibold text-rose-700 dark:border-rose-900 dark:text-rose-300">Logout</button>
         </form>
+        --}}
     </div>
 </header>
