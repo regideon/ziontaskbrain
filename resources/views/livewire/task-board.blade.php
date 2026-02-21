@@ -44,14 +44,64 @@
         @endif
 
         <section class="px-4 pb-2">
-            <article class="rounded-xl border border-cyan-200 bg-cyan-50 p-4 dark:border-cyan-900 dark:bg-cyan-900/20">
-                <h2 class="text-sm font-bold text-cyan-800 dark:text-cyan-200">AI Insights</h2>
-                <ul class="mt-2 space-y-1 text-sm text-cyan-900 dark:text-cyan-100">
-                    @foreach ($this->proactiveInsights as $line)
-                        <li>• {{ $line }}</li>
-                    @endforeach
-                </ul>
-            </article>
+            @php
+                $insights = $this->proactiveInsights;
+                $leadInsight = $insights[0] ?? 'No insights yet. Add tasks to activate AI guidance.';
+                $secondaryInsights = array_slice($insights, 1, 2);
+                $stats = $this->stats;
+                $toneClass = $stats['overdue'] > 0
+                    ? 'bg-rose-500/20 text-rose-100 border border-rose-400/30'
+                    : 'bg-emerald-500/20 text-emerald-100 border border-emerald-400/30';
+            @endphp
+
+            <div class="flex flex-col gap-4">
+                <h3 class="px-1 text-lg font-bold leading-tight">AI Insights</h3>
+
+                <div class="relative overflow-hidden rounded-[1.5rem] bg-[#111418] p-5 text-white shadow-lg dark:bg-[#0d1419]">
+                    <div class="absolute -right-10 -top-10 size-40 rounded-full bg-cyan-500/30 blur-3xl"></div>
+                    <div class="absolute bottom-0 left-0 size-24 rounded-full bg-violet-500/20 blur-2xl"></div>
+
+                    <div class="relative z-10 flex items-start gap-4">
+                        <div class="flex size-10 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-white/10 text-white backdrop-blur-sm">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="m12 3 1.9 3.9L18 8.8l-3 2.9.7 4.1L12 14l-3.7 1.8.7-4.1-3-2.9 4.1-.9L12 3Z"/>
+                            </svg>
+                        </div>
+
+                        <div class="min-w-0 flex-1">
+                            <h4 class="text-[15px] font-bold">Your Task Intelligence</h4>
+                            <p class="mt-1 text-[13px] font-medium leading-relaxed text-slate-300">
+                                {{ $leadInsight }}
+                            </p>
+
+                            @if (!empty($secondaryInsights))
+                                <div class="mt-2 flex flex-wrap gap-2 text-[12px] font-semibold text-slate-300">
+                                    @foreach ($secondaryInsights as $line)
+                                        <span class="rounded-md bg-white/10 px-2 py-1">{{ $line }}</span>
+                                    @endforeach
+                                </div>
+                            @endif
+
+                            <div class="mt-3 flex flex-wrap gap-3 text-[12px] font-semibold text-slate-400">
+                                <span>Pending: <span class="text-white">{{ $stats['pending'] }}</span></span>
+                                <span>Overdue: <span class="text-white">{{ $stats['overdue'] }}</span></span>
+                                <span class="rounded-sm px-1 {{ $toneClass }}">AI Scored: <span class="text-white">{{ $stats['ai_scored'] }}</span></span>
+                            </div>
+
+                            <div class="mt-1 text-[11px] font-semibold text-slate-500">
+                                {{ now()->format('F j, Y') }} • Live AI signals from your board
+                            </div>
+                        </div>
+                    </div>
+
+                    <a
+                        href="{{ route('agents-lab') }}"
+                        class="mt-3 flex w-full items-center justify-center gap-1.5 rounded-xl bg-cyan-500/10 px-4 py-2 text-center text-sm font-bold text-cyan-300 transition-colors hover:bg-cyan-500/20"
+                    >
+                        Open Full Agent Console
+                    </a>
+                </div>
+            </div>
         </section>
 
         <section class="px-4 pb-2">
