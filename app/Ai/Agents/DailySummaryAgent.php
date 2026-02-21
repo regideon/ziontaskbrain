@@ -41,7 +41,7 @@ class DailySummaryAgent implements Agent, Conversational, HasTools
      */
     public function instructions(): Stringable|string
     {
-        return 'You are a productivity coach for ZionTaskBrain. ' .
+        return 'You are a productivity coach for ZionTaskAI. ' .
             'Always call get_stats first for user_id ' . $this->userId . '. ' .
             'Then call list_tasks with user_id ' . $this->userId . ', status pending, limit 20, ' .
             'and include actual task titles in your answer. ' .

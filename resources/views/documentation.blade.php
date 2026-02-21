@@ -1,4 +1,4 @@
-<x-layouts.guest-main :title="'ZionTaskBrain Documentation'">
+<x-layouts.guest-main :title="'ZionTaskAI Documentation'">
     @php
         $agents = [
             [
@@ -108,7 +108,7 @@
         <header class="sticky top-0 z-30 border-b border-slate-200 bg-white/90 backdrop-blur dark:border-slate-800 dark:bg-[#0f1b20]/95">
             <div class="mx-auto flex w-full max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
                 <div>
-                    <p class="text-xs font-semibold uppercase tracking-[0.2em] text-cyan-600 dark:text-cyan-300">ZionTaskBrain</p>
+                    <p class="text-xs font-semibold uppercase tracking-[0.2em] text-cyan-600 dark:text-cyan-300">ZionTaskAI</p>
                     <h1 class="text-lg font-bold sm:text-xl">Project Documentation</h1>
                 </div>
                 <div class="flex items-center gap-2 text-xs sm:text-sm">
@@ -142,9 +142,9 @@
             <section class="space-y-6">
                 <article id="overview" class="overflow-hidden rounded-2xl border border-cyan-200 bg-gradient-to-br from-cyan-500 to-sky-600 p-6 text-white shadow-lg shadow-cyan-500/20">
                     <p class="text-xs font-semibold uppercase tracking-[0.2em] text-cyan-100">Overview</p>
-                    <h2 class="mt-2 text-2xl font-black tracking-tight sm:text-3xl">How ZionTaskBrain Works</h2>
+                    <h2 class="mt-2 text-2xl font-black tracking-tight sm:text-3xl">How ZionTaskAI Works</h2>
                     <p class="mt-3 max-w-3xl text-sm text-cyan-50 sm:text-base">
-                        ZionTaskBrain combines manual task management, AI-assisted agents, and MCP server tools.
+                        ZionTaskAI combines manual task management, AI-assisted agents, and MCP server tools.
                         The same task data is available in UI, agent workflows, and MCP API calls so everything stays synchronized.
                     </p>
                 </article>

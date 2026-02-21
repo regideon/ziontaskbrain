@@ -15,7 +15,7 @@
                 <p>{{ $this->currentTaskExample() }}</p>
             </div>
             <form wire:submit="createWithAgent" class="space-y-2">
-                <textarea wire:model="taskPrompt" rows="3" class="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm dark:border-slate-600 dark:bg-[#0f1a1d]" placeholder="Example: {{ $this->currentTaskExample() }}"></textarea>
+                <textarea wire:model="taskPrompt" rows="3" class="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm dark:border-slate-600 dark:bg-[#0f1a1d]"></textarea>
                 @error('taskPrompt')
                     <p class="text-xs text-rose-600 dark:text-rose-300">{{ $message }}</p>
                 @enderror
@@ -57,7 +57,7 @@
                 <p>{{ $this->currentSummaryExample() }}</p>
             </div>
             <form wire:submit="summarizeDay" class="space-y-2">
-                <textarea wire:model="summaryPrompt" rows="3" class="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm dark:border-slate-600 dark:bg-[#0f1a1d]" placeholder="Example: {{ $this->currentSummaryExample() }}"></textarea>
+                <textarea wire:model="summaryPrompt" rows="3" class="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm dark:border-slate-600 dark:bg-[#0f1a1d]"></textarea>
                 @error('summaryPrompt')
                     <p class="text-xs text-rose-600 dark:text-rose-300">{{ $message }}</p>
                 @enderror

@@ -49,7 +49,7 @@ class AgentsLab extends Component
     {
         return view('livewire.agents-lab')
             ->layout('components.layouts.livewire-main', [
-                'title' => 'ZionTaskBrain - Agents',
+                'title' => 'ZionTaskAI - Agents',
             ]);
     }
 }

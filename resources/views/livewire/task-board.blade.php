@@ -17,7 +17,7 @@
             <section class="px-4 pb-2">
                 <article class="rounded-xl border border-sky-200 bg-sky-50 p-4 dark:border-sky-900 dark:bg-sky-900/20">
                     <div class="mb-2 flex items-center justify-between">
-                        <h2 class="text-sm font-bold text-sky-800 dark:text-sky-200">Welcome to ZionTaskBrain</h2>
+                        <h2 class="text-sm font-bold text-sky-800 dark:text-sky-200">Welcome to ZionTaskAI</h2>
                         <button wire:click="dismissOnboarding" class="rounded-md border border-sky-300 px-2 py-0.5 text-xs text-sky-700 dark:border-sky-700 dark:text-sky-300">Dismiss</button>
                     </div>
                     <ol class="list-decimal space-y-1 pl-5 text-sm text-sky-900 dark:text-sky-100">
@@ -55,8 +55,6 @@
             @endphp
 
             <div class="flex flex-col gap-4">
-                <h3 class="px-1 text-lg font-bold leading-tight">AI Insights</h3>
-
                 <div class="relative overflow-hidden rounded-[1.5rem] bg-[#111418] p-5 text-white shadow-lg dark:bg-[#0d1419]">
                     <div class="absolute -right-10 -top-10 size-40 rounded-full bg-cyan-500/30 blur-3xl"></div>
                     <div class="absolute bottom-0 left-0 size-24 rounded-full bg-violet-500/20 blur-2xl"></div>
@@ -69,7 +67,8 @@
                         </div>
 
                         <div class="min-w-0 flex-1">
-                            <h4 class="text-[15px] font-bold">Your Task Intelligence</h4>
+                            <p class="text-[11px] font-semibold uppercase tracking-[0.18em] text-cyan-300/90">AI Insights</p>
+                            <h4 class="mt-1 text-[15px] font-bold">Your Task Intelligence</h4>
                             <p class="mt-1 text-[13px] font-medium leading-relaxed text-slate-300">
                                 {{ $leadInsight }}
                             </p>

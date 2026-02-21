@@ -1,11 +1,11 @@
-<x-layouts.guest-main title="ZionTaskBrain - Home">
+<x-layouts.guest-main title="ZionTaskAI - Home">
     <nav class="sticky top-0 z-50 w-full border-b border-slate-200 bg-white/80 backdrop-blur-md dark:border-slate-800 dark:bg-slate-900/60">
         <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
             <div class="flex items-center gap-3">
                 <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-primary text-white">
                     <span class="text-lg font-black">ZT</span>
                 </div>
-                <span class="text-xl font-bold tracking-tight">ZionTaskBrain</span>
+                <span class="text-xl font-bold tracking-tight">ZionTaskAI</span>
             </div>
             <div class="flex items-center gap-3">
                 @auth
@@ -28,7 +28,7 @@
         <section class="px-6 py-8 sm:pt-16 sm:pb-8 lg:px-8">
             <div class="mx-auto max-w-3xl text-center">
                 <h1 class="text-4xl font-extrabold tracking-tight sm:text-6xl">Plan Smarter. Finish Faster. <span class="text-primary">Feel In Control.</span></h1>
-                <p class="mt-6 text-lg text-slate-600 dark:text-slate-300">ZionTaskBrain helps you organize your day, focus on what matters, and turn overwhelming to-do lists into clear daily wins. Start free and see results in minutes.</p>
+                <p class="mt-6 text-lg text-slate-600 dark:text-slate-300">ZionTaskAI helps you organize your day, focus on what matters, and turn overwhelming to-do lists into clear daily wins. Start free and see results in minutes.</p>
                 <div class="mt-10 flex items-center justify-center gap-4">
                     <a href="{{ auth()->check() ? route('task-board') : route('login') }}" class="rounded-lg bg-primary px-6 py-3 text-base font-semibold text-white">Start with Task Board</a>
                     <a href="#agent-examples" class="rounded-lg border border-slate-300 px-6 py-3 text-base font-semibold dark:border-slate-700">See /agents examples</a>

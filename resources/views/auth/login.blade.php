@@ -1,10 +1,10 @@
-<x-layouts.guest-main title="ZionTaskBrain - Login">
+<x-layouts.guest-main title="ZionTaskAI - Login">
     <div class="relative flex min-h-screen w-full flex-col items-center justify-center p-4">
         <div class="w-full max-w-[420px]">
             <div class="mb-8 text-center">
                 <div class="mb-4 inline-flex h-16 w-16 items-center justify-center rounded-xl bg-primary/10 text-primary text-2xl font-black">ZT</div>
                 <h1 class="text-2xl font-bold tracking-tight">Welcome Back</h1>
-                <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">Log in to continue to ZionTaskBrain.</p>
+                <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">Log in to continue to ZionTaskAI.</p>
             </div>
 
             <div class="rounded-xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900/50">

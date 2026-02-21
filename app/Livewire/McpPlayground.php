@@ -31,7 +31,7 @@ class McpPlayground extends Component
     {
         return view('livewire.mcp-playground')
             ->layout('components.layouts.livewire-main', [
-                'title' => 'ZionTaskBrain - MCP Playground',
+                'title' => 'ZionTaskAI - MCP Playground',
             ]);
     }
 }

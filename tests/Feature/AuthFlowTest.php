@@ -12,7 +12,7 @@ class AuthFlowTest extends TestCase
 
     public function test_guest_can_view_landing_login_and_register_pages(): void
     {
-        $this->get('/')->assertOk()->assertSee('ZionTaskBrain');
+        $this->get('/')->assertOk()->assertSee('ZionTaskAI');
         $this->get('/login')->assertOk();
         $this->get('/register')->assertOk();
     }

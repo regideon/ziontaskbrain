@@ -1,4 +1,4 @@
-<x-layouts.guest-main title="ZionTaskBrain - Register">
+<x-layouts.guest-main title="ZionTaskAI - Register">
     <div class="relative flex min-h-screen w-full flex-col items-center justify-center p-4">
         <div class="w-full max-w-[460px]">
             <div class="mb-8 text-center">

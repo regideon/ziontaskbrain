@@ -15,7 +15,7 @@ use Laravel\Mcp\Server\Attributes\Version;
 #[Name('Task Server')]
 #[Version('1.0.0')]
 #[Instructions(
-    'Task management server for ZionTaskBrain. ' .
+    'Task management server for ZionTaskAI. ' .
     'Use list_tasks before prioritize_tasks and use get_stats before summary workflows. ' .
     'If user_id is omitted, tools default to authenticated user id.'
 )]

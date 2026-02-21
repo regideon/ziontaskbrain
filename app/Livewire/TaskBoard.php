@@ -520,7 +520,7 @@ class TaskBoard extends Component
     {
         return view('livewire.task-board')
             ->layout('components.layouts.livewire-main', [
-                'title' => 'ZionTaskBrain - Task Board',
+                'title' => 'ZionTaskAI - Task Board',
             ]);
     }
 }

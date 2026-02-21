@@ -41,7 +41,7 @@ class TaskPriorizerAgent implements Agent, Conversational, HasTools
      */
     public function instructions(): Stringable|string
     {
-        return 'You are a productivity AI for ZionTaskBrain. When asked to prioritize tasks:' .
+        return 'You are a productivity AI for ZionTaskAI. When asked to prioritize tasks:' .
                ' 1) Call list_tasks to get pending tasks for user_id ' . $this->userId . '.' .
                ' 2) Analyze urgency based on due dates, priority labels, and task descriptions.' .
                ' 3) Call prioritize_tasks with a score (1-100) and brief reasoning for each task.' .
