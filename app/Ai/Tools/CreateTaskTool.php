@@ -4,6 +4,7 @@ namespace App\Ai\Tools;
 
 
 use App\Models\Task;
+use DateTimeImmutable;
 use Illuminate\Contracts\JsonSchema\JsonSchema;
 use Laravel\Ai\Contracts\Tool;
 use Laravel\Ai\Tools\Request;
@@ -39,18 +40,72 @@ class CreateTaskTool implements Tool
         $categoryId = (is_numeric($rawCategoryId) && (int) $rawCategoryId > 0)
             ? (int) $rawCategoryId
             : null;
+        $dueDate = $this->normalizeDueDate($request['due_date'] ?? null);
+        $tags = $this->normalizeTags($request['tags'] ?? []);
 
         $task = Task::create([
             'user_id'     => $request['user_id'],
             'title'       => $request['title'],
             'description' => $request['description'] ?? null,
             'priority'    => $request['priority'] ?? 'medium',
-            'due_date'    => $request['due_date'] ?? null,
+            'due_date'    => $dueDate,
             'category_id' => $categoryId,
-            'tags'        => $request['tags'] ?? [],
+            'tags'        => $tags,
         ]);
 
 
         return json_encode(['success' => true, 'task_id' => $task->id, 'title' => $task->title]);
+    }
+
+    private function normalizeDueDate(mixed $rawDueDate): ?string
+    {
+        if (! is_string($rawDueDate)) {
+            return null;
+        }
+
+        $value = trim($rawDueDate);
+
+        if ($value === '' || in_array(strtolower($value), ['null', 'none', 'no due date'], true)) {
+            return null;
+        }
+
+        $date = DateTimeImmutable::createFromFormat('!Y-m-d', $value);
+        $errors = DateTimeImmutable::getLastErrors();
+        $hasErrors = is_array($errors) && (($errors['warning_count'] ?? 0) > 0 || ($errors['error_count'] ?? 0) > 0);
+
+        if ($date === false || $hasErrors || $date->format('Y-m-d') !== $value) {
+            return null;
+        }
+
+        return $value;
+    }
+
+    private function normalizeTags(mixed $rawTags): array
+    {
+        if (is_string($rawTags)) {
+            $rawTags = explode(',', $rawTags);
+        }
+
+        if (! is_array($rawTags)) {
+            return [];
+        }
+
+        $tags = [];
+
+        foreach ($rawTags as $tag) {
+            if (! is_string($tag)) {
+                continue;
+            }
+
+            $cleanTag = trim($tag);
+
+            if ($cleanTag === '' || in_array($cleanTag, $tags, true)) {
+                continue;
+            }
+
+            $tags[] = $cleanTag;
+        }
+
+        return $tags;
     }
 }

@@ -16,7 +16,7 @@
         <section class="px-4 py-2">
             <article class="rounded-xl border border-violet-200 bg-violet-50 p-4 dark:border-violet-900 dark:bg-violet-900/20">
                 <div class="mb-3">
-                    <h2 class="text-base font-bold text-violet-800 dark:text-violet-200">AI Helper</h2>
+                    <h2 class="text-base font-bold text-violet-800 dark:text-violet-200">Create Task Naturally</h2>
                 </div>
 
                 <form wire:submit="createViaAgentQuick" class="space-y-2">
