@@ -25,10 +25,37 @@
                         <p class="text-xs text-rose-600">{{ $message }}</p>
                     @enderror
                     <div class="space-y-2">
-                        <button type="submit" wire:loading.attr="disabled" wire:target="createViaAgentQuick" class="w-full rounded-lg bg-violet-600 px-3 py-1.5 text-xs font-semibold text-white disabled:opacity-60">Create Task</button>
+                        <button type="submit" wire:loading.attr="disabled" wire:target="createViaAgentQuick" class="w-full rounded-lg bg-violet-600 px-3 py-1.5 text-xs font-semibold text-white disabled:opacity-60">
+                            <span wire:loading.remove wire:target="createViaAgentQuick">Create Task</span>
+                            <span wire:loading wire:target="createViaAgentQuick" class="inline-flex items-center gap-1.5">
+                                <svg class="size-3 animate-spin" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3"></circle>
+                                    <path class="opacity-90" fill="currentColor" d="M22 12a10 10 0 0 0-10-10v3a7 7 0 0 1 7 7h3Z"></path>
+                                </svg>
+                                Creating...
+                            </span>
+                        </button>
                         <div class="grid grid-cols-2 gap-2">
-                            <button type="button" wire:click="generateBoardSummary" wire:loading.attr="disabled" wire:target="generateBoardSummary" class="w-full rounded-lg border border-violet-300 bg-white px-3 py-1.5 text-xs font-semibold text-violet-700 disabled:opacity-60 dark:border-violet-700 dark:bg-slate-900 dark:text-violet-300">Generate My Summary</button>
-                            <button type="button" wire:click="runBoardPrioritizer" wire:loading.attr="disabled" wire:target="runBoardPrioritizer" class="w-full rounded-lg border border-violet-300 bg-white px-3 py-1.5 text-xs font-semibold text-violet-700 disabled:opacity-60 dark:border-violet-700 dark:bg-slate-900 dark:text-violet-300">Run Prioritizer</button>
+                            <button type="button" wire:click="generateBoardSummary" wire:loading.attr="disabled" wire:target="generateBoardSummary" class="w-full rounded-lg border border-violet-300 bg-white px-3 py-1.5 text-xs font-semibold text-violet-700 disabled:opacity-60 dark:border-violet-700 dark:bg-slate-900 dark:text-violet-300">
+                                <span wire:loading.remove wire:target="generateBoardSummary">Generate My Summary</span>
+                                <span wire:loading wire:target="generateBoardSummary" class="inline-flex items-center gap-1.5">
+                                    <svg class="size-3 animate-spin" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3"></circle>
+                                        <path class="opacity-90" fill="currentColor" d="M22 12a10 10 0 0 0-10-10v3a7 7 0 0 1 7 7h3Z"></path>
+                                    </svg>
+                                    Generating...
+                                </span>
+                            </button>
+                            <button type="button" wire:click="runBoardPrioritizer" wire:loading.attr="disabled" wire:target="runBoardPrioritizer" class="w-full rounded-lg border border-violet-300 bg-white px-3 py-1.5 text-xs font-semibold text-violet-700 disabled:opacity-60 dark:border-violet-700 dark:bg-slate-900 dark:text-violet-300">
+                                <span wire:loading.remove wire:target="runBoardPrioritizer">Run Prioritizer</span>
+                                <span wire:loading wire:target="runBoardPrioritizer" class="inline-flex items-center gap-1.5">
+                                    <svg class="size-3 animate-spin" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3"></circle>
+                                        <path class="opacity-90" fill="currentColor" d="M22 12a10 10 0 0 0-10-10v3a7 7 0 0 1 7 7h3Z"></path>
+                                    </svg>
+                                    Running...
+                                </span>
+                            </button>
                         </div>
                     </div>
                 </form>
