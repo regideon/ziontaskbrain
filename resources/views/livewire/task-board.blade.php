@@ -262,7 +262,6 @@
                     <select wire:model.live="statusFilter" class="rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-xs dark:border-slate-700 dark:bg-slate-800">
                         <option value="all">all status</option>
                         <option value="pending">pending</option>
-                        <option value="in_progress">in progress</option>
                         <option value="completed">completed</option>
                         <option value="cancelled">cancelled</option>
                     </select>
@@ -277,8 +276,14 @@
             </div>
 
             <main class="space-y-3 pb-8">
+                @php
+                    $showGroupedSections = $statusFilter === 'all';
+                    $activeSection = null;
+                @endphp
                 @forelse ($this->tasks as $task)
                     @php
+                        $isCompleted = $task->status === 'completed';
+                        $isDone = in_array($task->status, ['completed', 'cancelled'], true);
                         $priorityClass = match ($task->priority) {
                             'urgent', 'high' => 'bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-300',
                             'medium' => 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-300',
@@ -287,19 +292,27 @@
                         $statusClass = match ($task->status) {
                             'pending' => 'bg-sky-100 text-sky-700 dark:bg-sky-900/30 dark:text-sky-300',
                             'completed' => 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300',
-                            'in_progress' => 'bg-violet-100 text-violet-700 dark:bg-violet-900/30 dark:text-violet-300',
                             'cancelled' => 'bg-rose-100 text-rose-700 dark:bg-rose-900/30 dark:text-rose-300',
                             default => 'bg-slate-100 text-slate-700 dark:bg-slate-700 dark:text-slate-200',
                         };
                         $nudge = null;
-                        if ($task->isOverdue()) {
+                        if (! $isDone && $task->isOverdue()) {
                             $nudge = 'Overdue risk: do this today to prevent backlog growth.';
-                        } elseif (($task->ai_priority_score ?? 0) >= 90) {
+                        } elseif (! $isDone && ($task->ai_priority_score ?? 0) >= 90) {
                             $nudge = 'AI says do this next.';
-                        } elseif (in_array($task->priority, ['low', 'medium'], true) && ($task->ai_priority_score ?? 0) < 70) {
+                        } elseif (! $isDone && in_array($task->priority, ['low', 'medium'], true) && ($task->ai_priority_score ?? 0) < 70) {
                             $nudge = 'Can be postponed after top-priority work.';
                         }
+                        $nextSection = $showGroupedSections ? ($task->status === 'pending' ? 'pending' : 'done') : null;
                     @endphp
+                    @if ($showGroupedSections && $activeSection !== $nextSection)
+                        @php
+                            $activeSection = $nextSection;
+                        @endphp
+                        <h3 class="text-xs font-semibold uppercase tracking-[0.12em] text-slate-500 dark:text-slate-400">
+                            {{ $activeSection === 'pending' ? 'Pending' : 'Completed & Cancelled' }}
+                        </h3>
+                    @endif
                     <article wire:click="startEdit({{ $task->id }})" class="cursor-pointer rounded-xl border border-slate-100 bg-white p-4 shadow-sm transition-colors hover:border-sky-200 dark:border-slate-700 dark:bg-slate-800 dark:hover:border-sky-800">
                         <div class="mb-2 flex items-start justify-between gap-3">
                             <span class="{{ $priorityClass }} rounded px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide">{{ $task->priority }} priority</span>
@@ -307,8 +320,8 @@
                                 @if ($task->due_date) {{ $task->due_date->toDateString() }} @else no due date @endif
                             </span>
                         </div>
-                        <h3 class="mb-1 truncate text-base font-bold" title="{{ $task->title }}">{{ $task->title }}</h3>
-                        <p class="line-clamp-2 text-sm text-slate-500 dark:text-slate-400" title="{{ $task->description }}">{{ $task->description }}</p>
+                        <h3 class="mb-1 truncate text-base font-bold {{ $isCompleted ? 'text-slate-500 line-through decoration-2 dark:text-slate-400' : '' }}" title="{{ $task->title }}">{{ $task->title }}</h3>
+                        <p class="line-clamp-2 text-sm text-slate-500 dark:text-slate-400 {{ $isCompleted ? 'line-through decoration-2 opacity-80' : '' }}" title="{{ $task->description }}">{{ $task->description }}</p>
                         @if ($nudge)
                             <p class="mt-2 text-[11px] font-medium text-cyan-700 dark:text-cyan-300">{{ $nudge }}</p>
                         @endif
@@ -319,7 +332,7 @@
                                 <span class="rounded-full bg-sky-100 px-2 py-0.5 text-sky-700 dark:bg-sky-900/30 dark:text-sky-300">AI {{ $task->ai_priority_score ?? 'n/a' }}</span>
                             </div>
                             <div class="flex items-center gap-2">
-                                @if ($task->status !== 'completed')
+                                @if ($task->status === 'pending')
                                     <button wire:click.stop="completeTask({{ $task->id }})" class="rounded-md border border-emerald-200 bg-emerald-50 px-2 py-1 text-[10px] font-medium text-emerald-700 hover:bg-emerald-100 dark:border-emerald-900 dark:bg-emerald-900/20 dark:text-emerald-300 dark:hover:bg-emerald-900/30">Complete</button>
                                 @else
                                     <button wire:click.stop="reopenTask({{ $task->id }})" class="rounded-md border border-slate-300 bg-white px-2 py-1 text-[10px] font-medium text-slate-700 hover:bg-slate-50 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700">Reopen</button>

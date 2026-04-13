@@ -49,6 +49,7 @@ class TaskBoard extends Component
     {
         $userId = auth()->id();
         $this->userId = $userId ? (int) $userId : 0;
+        $this->normalizeStatusFilter();
         $this->showOnboarding = (bool) session()->pull('show_onboarding', false);
         $this->syncCreateTaskFormVisibilityFromUser();
         $this->loadMorningBriefing();
@@ -167,6 +168,7 @@ class TaskBoard extends Component
 
     public function updatedStatusFilter(): void
     {
+        $this->normalizeStatusFilter();
         $this->tasksLimit = 5;
         $this->cancelEdit();
     }
@@ -394,7 +396,7 @@ class TaskBoard extends Component
 
         $topTasks = Task::query()
             ->where('user_id', $this->userId)
-            ->whereIn('status', ['pending', 'in_progress'])
+            ->where('status', 'pending')
             ->orderByRaw('CASE WHEN ai_priority_score IS NULL THEN 1 ELSE 0 END')
             ->orderByDesc('ai_priority_score')
             ->orderByRaw("FIELD(priority, 'urgent', 'high', 'medium', 'low')")
@@ -415,6 +417,15 @@ class TaskBoard extends Component
         return "**Progress:** {$completed}/{$total} completed; {$pending} pending; {$overdue} overdue.\n\n".
             "**Top priorities:**\n".implode("\n", $topLines)."\n\n".
             '**Tactical suggestion:** Start with priority #1 for 25 focused minutes.';
+    }
+
+    private function normalizeStatusFilter(): void
+    {
+        $allowed = ['all', 'pending', 'completed', 'cancelled'];
+
+        if (! in_array($this->statusFilter, $allowed, true)) {
+            $this->statusFilter = 'all';
+        }
     }
 
     public function saveEdit(): void
@@ -471,11 +482,14 @@ class TaskBoard extends Component
     #[Computed]
     public function tasks(): Collection
     {
+        $visibleStatuses = ['pending', 'completed', 'cancelled'];
         $query = Task::query()
             ->where('user_id', $this->userId);
 
         if ($this->statusFilter !== 'all') {
             $query->where('status', $this->statusFilter);
+        } else {
+            $query->whereIn('status', $visibleStatuses);
         }
 
         if ($this->priorityFilter !== 'all') {
@@ -483,6 +497,12 @@ class TaskBoard extends Component
         }
 
         return $query
+            ->orderByRaw("CASE
+                WHEN status = 'pending' THEN 0
+                WHEN status = 'completed' THEN 1
+                WHEN status = 'cancelled' THEN 2
+                ELSE 3
+            END")
             ->orderByRaw('CASE WHEN ai_priority_score IS NULL THEN 1 ELSE 0 END')
             ->orderByDesc('ai_priority_score')
             ->orderBy('due_date')
@@ -494,10 +514,13 @@ class TaskBoard extends Component
     #[Computed]
     public function totalFilteredTasks(): int
     {
+        $visibleStatuses = ['pending', 'completed', 'cancelled'];
         $query = Task::query()->where('user_id', $this->userId);
 
         if ($this->statusFilter !== 'all') {
             $query->where('status', $this->statusFilter);
+        } else {
+            $query->whereIn('status', $visibleStatuses);
         }
 
         if ($this->priorityFilter !== 'all') {
@@ -515,8 +538,8 @@ class TaskBoard extends Component
         return [
             'total' => (clone $base)->count(),
             'pending' => (clone $base)->where('status', 'pending')->count(),
-            'in_progress' => (clone $base)->where('status', 'in_progress')->count(),
             'completed' => (clone $base)->where('status', 'completed')->count(),
+            'cancelled' => (clone $base)->where('status', 'cancelled')->count(),
             'overdue' => (clone $base)->overdue()->count(),
             'ai_scored' => (clone $base)->whereNotNull('ai_priority_score')->count(),
         ];
@@ -534,7 +557,7 @@ class TaskBoard extends Component
 
         $nextTask = Task::query()
             ->where('user_id', $this->userId)
-            ->whereIn('status', ['pending', 'in_progress'])
+            ->where('status', 'pending')
             ->orderByRaw('CASE WHEN ai_priority_score IS NULL THEN 1 ELSE 0 END')
             ->orderByDesc('ai_priority_score')
             ->orderByRaw("FIELD(priority, 'urgent', 'high', 'medium', 'low')")
